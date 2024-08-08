@@ -25,25 +25,19 @@ fdias = fdias_horas.days  # Agora pegamos somente os dias
 
 # Temos que separar o caso em que falta apenas 1 dia, para poder mudar "dias" para "dia" no tweet
 
-inicio = datetime.date(2023,8,7)
-
-if agora >= inicio:
-
-    if fdias > 1:
-
-        if fdias % 10 == 0: #Testando para ver se o dia é um multiplo de 10
-            client.create_tweet(text = ("Faltam " + str(fdias) + " dias para as férias da UFMS!!!") )
-
-        if fdias % 10 != 0: #Testando para ver se o dia é um multiplo de 10
-            client.create_tweet(text = ("Faltam " + str(fdias) + " dias para as férias da UFMS") )
-
-
-    if fdias == 1:
-        client.create_tweet(text = ("Falta " + str(fdias) + " dia para as férias da UFMS!!!") )
-
-
-    if fdias == 0:
-        client.creat_tweet(text = ("ATENÇÃO: COMEÇARAM AS FÉRIAS DA UFMS!!!") )
-        
-else:
+if agora > ferias:
     quit()
+
+# Mensagem base
+if fdias == 0:
+    message = "ATENÇÃO: COMEÇARAM AS FÉRIAS DA UFMS!!!"
+elif fdias == 1:
+    message = "Falta 1 dia para as férias da UFMS!!!"
+else:
+    # Mensagem para múltiplos de 10 ou outros dias
+    if fdias % 10 == 0:
+        message = f"Faltam {fdias} dias para as férias da UFMS!!!"
+    else:
+        message = f"Faltam {fdias} dias para as férias da UFMS"
+
+client.create_tweet(text=message)
